@@ -1,0 +1,25 @@
+{
+  "name": "explore-marko-typescript",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "markoc src && tsc",
+    "start": "node dist/main",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nicolashery/explore-marko-typescript.git"
+  },
+  "author": "Nicolas Hery <hi@nicolashery.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/nicolashery/explore-marko-typescript/issues"
+  },
+  "homepage": "https://github.com/nicolashery/explore-marko-typescript#readme",
+  "dependencies": {
+    "marko": "4.0.0-rc.19",
+    "typescript": "2.1.6"
+  }
+}
