@@ -19,7 +19,7 @@
   },
   "homepage": "https://github.com/nicolashery/explore-marko-typescript#readme",
   "dependencies": {
-    "marko": "4.0.0-rc.19",
+    "marko": "4.0.0-rc.20",
     "typescript": "2.1.6"
   }
 }
