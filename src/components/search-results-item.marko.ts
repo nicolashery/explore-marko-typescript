@@ -3,20 +3,6 @@
 declare var require: any;
 declare var __filename: any;
 
-// CHANGED: Inject Marko-specific type declarations
-// The `any` will need to be replaced by actual interfaces
-declare type RenderResult = any;
-// `Template` is actually specific to this file since it uses the type
-// declarations of `Input` for this component, to make sure you don't pass
-// the wrong data to the `Template.render()` method
-declare interface MarkoTemplate {
-  render(input: Input, cb: (err: any, out: RenderResult) => void): void;
-  renderToString(input: Input): string;
-  _: any;
-  Component: any;
-  meta: any;
-}
-
 // CHANGED: Move any declaration in the Marko `static` tag at the top of the file
 import { SearchResultsItem } from "../models/search-results-item";
 
@@ -53,20 +39,25 @@ class Component {
   }
 }
 
-// CHANGED: Need to convert to plain object, can't use class directly
-// Note that `constructor(input)` won't work, it gets change to `onCreate(input)`
-// by original Marko compiler; `onInput` will work though
-var fake_input: any = {};
-var component_instance: any = new Component(fake_input);
-var component: any = {};
-for (var property in component_instance) {
-    component[property] = component_instance[property];
+// CHANGED: Inject Marko-specific type declarations
+// The `any` will need to be replaced by actual interfaces
+declare type RenderResult = any;
+// `Template` is actually specific to this file since it uses the type
+// declarations of `Input` for this component, to make sure you don't pass
+// the wrong data to the `Template.render()` method
+declare interface Template {
+  render(input: Input, cb: (err: any, out: RenderResult) => void): void;
+  renderToString(input: Input): string;
+  _: any;
+  Component: Component;
+  meta: any;
 }
 
 // CHANGED: Don't use `module.exports` but `export default` at the end
-var marko_template: MarkoTemplate = require("marko/html").t(__filename),
-    // CHANGED: Use component class instance declared earlier
-    marko_component = component,
+// and annotate with `Template` interface
+var marko_template: Template = require("marko/html").t(__filename),
+    // CHANGED: Use `Component` class declared above
+    marko_component = Component,
     marko_components = require("marko/components"),
     marko_registerComponent = marko_components.rc,
     marko_componentType = marko_registerComponent("/explore-marko-typescript$1.0.0/src/components/search-results-item.marko", function() {
