@@ -17,41 +17,9 @@ declare interface MarkoTemplate {
   meta: any;
 }
 
-// CHANGED: Move any declaration in the Marko `static` tag at the top of the file
-import { SearchResultsItem } from "../models/search-results-item";
-
-interface Input {
-  item: SearchResultsItem
-}
-
-interface State {
-  purchased: boolean;
-  item: SearchResultsItem;
-}
-
-// CHANGED: Need to use a TypeScript class so the TypeScript compiler understands
-// what methods and properties are available on an instance of that class
-class Component {
-  state: State;
-
-  constructor(input: Input) {
-    this.state = {
-      purchased: false,
-      item: input.item
-    };
-  }
-
-  onInput(input: Input) {
-    this.state = {
-      purchased: false,
-      item: input.item
-    };
-  }
-
-  handleBuyButtonClick() {
-    this.state.purchased = true;
-  }
-}
+// CHANGED: Import component `Input` and `State` interface in addition to
+// the component class itself
+import Component, { Input, State } from "./component";
 
 // CHANGED: Need to convert to plain object, can't use class directly
 // Note that `constructor(input)` won't work, it gets change to `onCreate(input)`
@@ -64,15 +32,15 @@ for (var property in component_instance) {
 }
 
 // CHANGED: Don't use `module.exports` but `export default` at the end
-var marko_template: MarkoTemplate = require("marko/html").t(__filename),
-    // CHANGED: Use component class instance declared earlier
-    marko_component = component,
+var marko_template = require("marko/html").t(__filename),
     marko_components = require("marko/components"),
     marko_registerComponent = marko_components.rc,
-    marko_componentType = marko_registerComponent("/explore-marko-typescript$1.0.0/src/components/search-results-item.marko", function() {
+    marko_componentType = marko_registerComponent("/explore-marko-typescript$1.0.0/src/components/multi-file-item/index.marko", function() {
       // CHANGED: Don't use `module.exports`
       return marko_template;
     }),
+    // CHANGED: Use component class instance declared earlier
+    marko_component = component,
     marko_helpers = require("marko/runtime/html/helpers"),
     marko_escapeXml = marko_helpers.x,
     marko_attr = marko_helpers.a,
@@ -110,14 +78,7 @@ function render(input: Input, out: any, __component: any, state: State) {
     out.w("<div class=\"purchased\">Purchased!</div>");
   } else {
     out.w("<button type=\"button\" class=\"buy-now\"" +
-      marko_attr(
-        "data-_onclick",
-        // CHANGED: Instead of using a string (method name) to dispatch, use a callback
-        // that gets passed the component instance (with annotated type), to help
-        // catch bugs like calling a non-existant handler
-        __component.d(function(c: Component, e: DocumentEvent) { return c.handleBuyButtonClick.call(c, e); }),
-        false
-      ) +
+      marko_attr("data-_onclick", __component.d("handleBuyButtonClick"), false) +
       ">Buy now!</button>");
   }
 
@@ -134,7 +95,7 @@ marko_template.meta = {
     deps: [
       {
           type: "require",
-          path: "./search-results-item.marko"
+          path: "./component"
         },
       {
           type: "require",

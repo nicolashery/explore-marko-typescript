@@ -1,50 +1,17 @@
 // Compiled using markoc@4.0.0-rc.20 - DO NOT EDIT
 var marko_template = module.exports = require("marko/html").t(__filename),
-    marko_component = {},
     marko_components = require("marko/components"),
     marko_registerComponent = marko_components.rc,
-    marko_componentType = marko_registerComponent("/explore-marko-typescript$1.0.0/src/components/search-results-item.marko", function() {
+    marko_componentType = marko_registerComponent("/explore-marko-typescript$1.0.0/src/components/multi-file-item/index.marko", function() {
       return module.exports;
     }),
+    marko_component = require("./component"),
     marko_helpers = require("marko/runtime/html/helpers"),
     marko_escapeXml = marko_helpers.x,
     marko_attr = marko_helpers.a,
     marko_escapeXmlAttr = marko_helpers.xa,
     marko_classAttr = marko_helpers.ca,
     marko_styleAttr = marko_helpers.sa;
-
-import { SearchResultsItem } from "../models/search-results-item";
-
-interface Input {
-  item: SearchResultsItem
-}
-
-interface State {
-  purchased: boolean;
-  item: SearchResultsItem;
-}
-
-class Component {
-  state: State;
-
-  constructor(input: Input) {
-    this.state = {
-      purchased: false,
-      item: input.item
-    };
-  }
-
-  onInput(input: Input) {
-    this.state = {
-      purchased: false,
-      item: input.item
-    };
-  }
-
-  handleBuyButtonClick() {
-    this.state.purchased = true;
-  }
-};
 
 function render(input, out, __component, state) {
   var data = input;
@@ -91,7 +58,7 @@ marko_template.meta = {
     deps: [
       {
           type: "require",
-          path: "./search-results-item.marko"
+          path: "./component"
         },
       {
           type: "require",

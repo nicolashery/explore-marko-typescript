@@ -13,6 +13,13 @@ static {
   class Component {
     state: State;
 
+    constructor(input: Input) {
+      this.state = {
+        purchased: false,
+        item: input.item
+      };
+    }
+
     onInput(input: Input) {
       this.state = {
         purchased: false,
@@ -28,7 +35,7 @@ static {
 
 class {}
 
-$ var item=state.item
+$ var item=state.item;
 
 <div class=["search-results-item"] style={ backgroundColor: state.purchased ? '#f1c40f' : ''}>
   <h2>${item.title}</h2>
