@@ -1,0 +1,27 @@
+/* tslint:disable */
+interface Template {
+    render(input: Input, cb: (err: any, out: any) => void): void;
+    render(input: Input, stream: any): void;
+    renderToString(input: Input): string;
+    _: any;
+    meta: any;
+}
+import * as marko_runtime from "marko/dist/html";
+import * as marko_helpers from "marko/dist/runtime/html/helpers";
+var marko_template: Template = marko_runtime.t(__filename), marko_escapeXml = marko_helpers.x, marko_attr = marko_helpers.a;
+import { Product, formatPrice } from "../models/product";
+interface Input {
+    product: Product;
+}
+function render(input: Input, out: any): void {
+    var data = input;
+    var product = input.product;
+    out.w("<div class=\"product\"><h2 class=\"product-title\">" + marko_escapeXml(product.title) + "</h2>");
+    if (product.image) {
+        out.w("<img" + marko_attr("href", product.image) + marko_attr("alt", product.title) + ">");
+    }
+    out.w("<div>Price: <strong>" + marko_escapeXml(formatPrice(product)) + "</strong></div></div>");
+}
+marko_template._ = render;
+marko_template.meta = {};
+export default marko_template;

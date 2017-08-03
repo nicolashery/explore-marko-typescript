@@ -1,3 +1,6 @@
 /dist/
+/dist-example/
+/dist-test/
 /node_modules/
+/example/**/*.marko.ts
 /tmp/

@@ -1,0 +1,17 @@
+static {/**@ts
+import { Product, formatPrice } from "../models/product";
+
+interface Input {
+  product: Product;
+}
+*/}
+
+$ var product = input.product;
+
+<div class="product">
+  <h2 class="product-title">${product.title}</h2>
+  <if(product.image)>
+    <img href=product.image alt=product.title/>
+  </if>
+  <div>Price: <strong>${formatPrice(product)}</strong></div>
+</div>
